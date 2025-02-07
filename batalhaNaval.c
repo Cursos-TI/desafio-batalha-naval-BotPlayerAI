@@ -112,3 +112,94 @@ int main()
     return 0;
 }
 
+🏅 Nível Mestre
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define TAMANHO 10
+
+    int tabuleiro[TAMANHO][TAMANHO];
+
+// Inicializa o tabuleiro com zeros
+void inicializarTabuleiro()
+{
+    for (int i = 0; i < TAMANHO; i++)
+    {
+        for (int j = 0; j < TAMANHO; j++)
+        {
+            tabuleiro[i][j] = 0;
+        }
+    }
+}
+
+// Exibe o tabuleiro no console
+void exibirTabuleiro()
+{
+    for (int i = 0; i < TAMANHO; i++)
+    {
+        for (int j = 0; j < TAMANHO; j++)
+        {
+            printf("%d ", tabuleiro[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Aplica a habilidade Cone (triangular descendente)
+void aplicarCone(int x, int y)
+{
+    for (int i = 0; i < 3; i++)
+    { // Altura do cone
+        for (int j = -i; j <= i; j++)
+        { // Largura do cone
+            if (x + i < TAMANHO && y + j >= 0 && y + j < TAMANHO)
+            {
+                tabuleiro[x + i][y + j] = 1;
+            }
+        }
+    }
+}
+
+// Aplica a habilidade Cruz
+void aplicarCruz(int x, int y)
+{
+    for (int i = 0; i < TAMANHO; i++)
+    {
+        tabuleiro[x][i] = 1; // Linha horizontal
+        tabuleiro[i][y] = 1; // Linha vertical
+    }
+}
+
+// Aplica a habilidade Octaedro (losango)
+void aplicarOctaedro(int x, int y)
+{
+    for (int i = -2; i <= 2; i++)
+    {
+        for (int j = -2; j <= 2; j++)
+        {
+            if (abs(i) + abs(j) <= 2)
+            { // Condição para formar o losango
+                if (x + i >= 0 && x + i < TAMANHO && y + j >= 0 && y + j < TAMANHO)
+                {
+                    tabuleiro[x + i][y + j] = 1;
+                }
+            }
+        }
+    }
+}
+
+int main()
+{
+    inicializarTabuleiro();
+
+    // Testando as habilidades
+    aplicarCone(2, 5);
+    aplicarCruz(5, 5);
+    aplicarOctaedro(7, 5);
+
+    // Exibir tabuleiro final
+    exibirTabuleiro();
+
+    return 0;
+}
